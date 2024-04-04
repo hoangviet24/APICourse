@@ -51,7 +51,7 @@ namespace REST_API_TEMPLATE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"{student.Name} could not be added.");
             }
 
-            return CreatedAtAction("GetStudent", new { id = student.StudentId }, student);
+            return CreatedAtAction("GetIdStudent", new { id = student.StudentId }, student);
         }
 
         [HttpPut("id")]

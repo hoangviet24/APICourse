@@ -81,6 +81,7 @@ namespace StudentCourses.Services
                 }
 
                 _context.Courses.Remove(courses);
+                _context.SaveChanges();
                 return (true, "Success");
             }
             catch (Exception e)
@@ -89,16 +90,12 @@ namespace StudentCourses.Services
             }
         }
 
-        public Task<List<Student>> getAllStudent()
-        {
-            return _coursesServicesImplementation.getAllStudent();
-        }
+        
 
         #endregion
 
         #region Student
-
-        public async Task<List<Student>> GetAllStudent()
+        public async Task<List<Student>> getAllStudent()
         {
             try
             {
@@ -106,10 +103,10 @@ namespace StudentCourses.Services
             }
             catch (Exception e)
             {
-                return null;
+                Console.WriteLine(e);
+                throw;
             }
         }
-
         public async Task<Student> GetIdStudent(Guid id, bool includeCourses)
         {
             try
@@ -160,7 +157,7 @@ namespace StudentCourses.Services
         {
             try
             {
-                var dbStudent = await _context.Students.FindAsync(student);
+                var dbStudent = await _context.Students.FindAsync(student.StudentId);
                 if (dbStudent == null)
                 {
                     return (false, "Courses could not be found");
@@ -169,83 +166,6 @@ namespace StudentCourses.Services
                 _context.Students.Remove(student);
                 await _context.SaveChangesAsync();
                 return (true, "Amzing good job you");
-            }
-            catch (Exception e)
-            {
-                return (false, e.Message);
-            }
-        }
-
-        #endregion
-
-        #region StudentCourese
-
-        public async Task<List<Models.StudentCourses>> GetAllSCourses()
-        {
-            try
-            {
-                return await _context.StudentCourses.ToListAsync();
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
-
-        public async Task<Models.StudentCourses> GetIdSCourses(Guid id)
-        {
-            try
-            {
-                return await _context.StudentCourses.FindAsync(id);
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
-
-        public async Task<Models.StudentCourses> AddSCourses(Models.StudentCourses sc)
-        {
-            try
-            {
-                await _context.StudentCourses.AddAsync(sc);
-                await _context.SaveChangesAsync();
-
-                return await _context.StudentCourses.FindAsync(sc.CoursesId);
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
-
-        public async Task<Models.StudentCourses> UpdateSCourses(Models.StudentCourses sc)
-        {
-            try
-            {
-                _context.Entry(sc).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-
-                return sc;
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
-
-        public async Task<(bool, string)> DeleteSCourses(Models.StudentCourses sc)
-        {
-            try
-            {
-                var dbSC = await _context.StudentCourses.FindAsync(sc.CoursesId);
-                if (dbSC == null)
-                {
-                    return (false, "Courses could not be found");
-                }
-                _context.StudentCourses.Remove(sc);
-                await _context.SaveChangesAsync();
-                return (true, "Amazing good job you");
             }
             catch (Exception e)
             {

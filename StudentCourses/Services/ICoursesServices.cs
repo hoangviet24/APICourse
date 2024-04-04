@@ -17,10 +17,5 @@ namespace StudentCourses.Services
         Task<Student> UpdateStudent(Student student);
         Task<(bool, string)> DeleteStudent(Student student);
 
-        Task<List<Models.StudentCourses>> GetAllSCourses();
-        Task<Models.StudentCourses> GetIdSCourses(Guid id);
-        Task<Models.StudentCourses> AddSCourses(Models.StudentCourses sc);
-        Task<Models.StudentCourses> UpdateSCourses(Models.StudentCourses sc);
-        Task<(bool, string)> DeleteSCourses(Models.StudentCourses sc);
     }
 }
